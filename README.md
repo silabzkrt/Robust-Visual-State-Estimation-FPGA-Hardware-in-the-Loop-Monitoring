@@ -1,4 +1,5 @@
 # Robust Visual State Estimation & FPGA Hardware-in-the-Loop Monitoring
+https://docs.google.com/document/d/1VGwVN3Yn5SWI-y6zK0XQWPso_tVmgb_szBxCbuN5a5s/edit?usp=sharing
 
 ## 1. Abstract
 This project presents a robust object tracking architecture integrating Computer Vision, Adaptive State Estimation, and FPGA-based Hardware-in-the-Loop (HIL) monitoring. The system addresses the challenge of tracking maneuvering targets under sensor occlusion and noise. It implements an Adaptive Kalman Filter (AKF) with dynamic process noise scaling based on Normalized Innovation Squared (NIS) statistics. Furthermore, a Xilinx Artix-7 FPGA (Basys 3) functions as a dedicated safety monitor, visualizing real-time kinematic metrics (Velocity, Acceleration, Displacement) via UART communication.
@@ -45,6 +46,11 @@ The system consists of three distinct modules:
 * **`research_comparison.m`**: The core research script. It compares a Standard Kalman Filter against the Adaptive version. It generates plots for Trajectory, Velocity, and Filter Consistency (NIS) to prove the algorithm's robustness.
 * **`replay_and_hardware.m`**: A HIL interface script. It replays the recorded dataset, calculates real-time physics (Velocity/Accel), and transmits packets `[Header, Dist, Vel, Acc]` to the FPGA over Serial (COM Port).
 
+## 5. Experimental Procedure 
+1) **Constrained Planar Motion:** The target object (orange ball) was translated across a horizontal plane to maintain a constant depth relative to the camera sensor. This isolates $X$ and $Y$ motion by minimizing variations in the radius caused by Z-axis depth changes.
+2) **Occlusion Injection:** Intentional sensor blackouts were introduced at random intervals by physically obstructing the camera lens. This was performed to evaluate the prediction model's Occlusion Recovery capabilities during data loss.
+3) **Comparative Analysis:** The recorded telemetry was processed in MATLAB to benchmark the Standard Kalman Filter against the Adaptive Kalman Filter. Performance was evaluated using Normalized Innovation Squared (NIS) statistics and uncertainty ellipses.
+4) **Hardware-in-the-Loop (HIL) Validation:** Real-time kinematic data was transmitted via UART to the Xilinx Basys 3 FPGA. The FPGA served as an independent safety monitor, visualizing Cumulative Path Length, Velocity, and Acceleration on the 7-segment display based on switch configuration.
 ## 5. Experimental Results
 
 ## 6. How to Run
