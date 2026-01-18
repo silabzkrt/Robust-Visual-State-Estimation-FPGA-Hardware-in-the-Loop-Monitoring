@@ -97,9 +97,9 @@ classDiagram
 2) **Occlusion Injection:** Intentional sensor blackouts were introduced at random intervals by physically obstructing the camera lens. This was performed to evaluate the prediction model's Occlusion Recovery capabilities during data loss.
 3) **Comparative Analysis:** The recorded telemetry was processed in MATLAB to benchmark the Standard Kalman Filter against the Adaptive Kalman Filter. Performance was evaluated using Normalized Innovation Squared (NIS) statistics and uncertainty ellipses.
 4) **Hardware-in-the-Loop (HIL) Validation:** Real-time kinematic data was transmitted via UART to the Xilinx Basys 3 FPGA. The FPGA served as an independent safety monitor, visualizing Cumulative Path Length, Velocity, and Acceleration on the 7-segment display based on switch configuration.
-## 5. Experimental Results
+## 6. Experimental Results
 
-## 6. How to Run
+## 7. How to Run
 
 1.  **Hardware Setup:** Connect Basys 3 via USB. Program with the generated bitstream.
 2.  **Data Acquisition:** Run `track_object.py`. Move an orange object in front of the camera. Introduce occlusions (hiding the object) to test robustness. Press 'q' to stop.
@@ -108,3 +108,19 @@ classDiagram
     * Toggle **SW0** to see Distance.
     * Toggle **SW1** to see Speed.
     * Toggle **SW2** to see Acceleration.
+    * 
+## 8. References
+
+[1] R. E. Kalman, "A New Approach to Linear Filtering and Prediction Problems," Transactions of the ASME–Journal of Basic Engineering, vol. 82, no. Series D, pp. 35-45, 1960. (Kalman Filtresi kullandığınız her proje için bu "zorunlu" atıftır. Filtrenin mucididir.)
+
+[2] Y. Bar-Shalom, X. R. Li, and T. Kirubarajan, Estimation with Applications to Tracking and Navigation. New York: Wiley, 2001. (Projenizin "Research" kısmı olan NIS (Normalized Innovation Squared), Adaptive Filtering ve Chi-Square Test konuları için en otoriter kitaptır.)
+
+[3] G. Welch and G. Bishop, "An Introduction to the Kalman Filter," University of North Carolina at Chapel Hill, Chapel Hill, NC, USA, Tech. Rep. TR 95-041, 2006. (Kalman filtresinin nasıl çalıştığını anlattığınız bölümler için mükemmel, anlaşılır bir referanstır.)
+
+[4] G. Bradski, "The OpenCV Library," Dr. Dobb's Journal of Software Tools, vol. 25, pp. 120-125, 2000. (Python tarafında görüntü işleme için kullandığınız kütüphanenin resmi referansıdır.)
+
+[5] Digilent Inc., "Basys 3 FPGA Board Reference Manual," Pullman, WA, USA, 2016. [Online]. Available: https://reference.digilentinc.com (Donanım özelliklerini ve FPGA mimarisini anlattığınız kısım için.)
+
+[6] M. S. Grewal and A. P. Andrews, Kalman Filtering: Theory and Practice Using MATLAB. New York: Wiley-IEEE Press, 2014. (MATLAB kullanarak analiz yaptığınız için bu kitap çok uygun bir referanstır.)
+
+[7] P. J. Mosterman and J. Zander, "Industry-Electronics-Hardware-in-the-Loop Simulation," in Real-Time Simulation Technologies: Principles, Methodologies, and Applications, CRC Press, 2016. (FPGA'yi "Hardware-in-the-Loop" (HIL) olarak kullandığınızı akademik olarak desteklemek için bu referansı kullanabilirsiniz.)
