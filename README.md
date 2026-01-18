@@ -46,6 +46,52 @@ The system consists of three distinct modules:
 * **`research_comparison.m`**: The core research script. It compares a Standard Kalman Filter against the Adaptive version. It generates plots for Trajectory, Velocity, and Filter Consistency (NIS) to prove the algorithm's robustness.
 * **`replay_and_hardware.m`**: A HIL interface script. It replays the recorded dataset, calculates real-time physics (Velocity/Accel), and transmits packets `[Header, Dist, Vel, Acc]` to the FPGA over Serial (COM Port).
 
+```mermaid
+classDiagram
+    %% Package Definitions
+    namespace Vision_Node {
+        class track_object_py {
+            +detect_object()
+            +log_telemetry()
+        }
+        class ball_coordinates_csv {
+            <<Artifact>>
+        }
+    }
+
+    namespace Analysis_Node {
+        class research_comparison_m {
+            +run_kalman_filter()
+            +plot_nis()
+        }
+        class replay_and_hardware_m {
+            +calculate_kinematics()
+            +send_uart_packet()
+        }
+    }
+
+    namespace Hardware_Node_FPGA {
+        class top_module_sv {
+            +parse_packet_fsm()
+            +update_display()
+        }
+        class uart_rx_sv {
+            +sample_bit()
+        }
+        class seven_seg_driver_sv {
+            +multiplex_digits()
+        }
+    }
+
+    %% Relationships
+    track_object_py ..> ball_coordinates_csv : Writes
+    ball_coordinates_csv <.. research_comparison_m : Reads
+    ball_coordinates_csv <.. replay_and_hardware_m : Reads
+    replay_and_hardware_m ..> top_module_sv : "UART (9600 Baud)"
+    top_module_sv *-- uart_rx_sv : Instantiates
+    top_module_sv *-- seven_seg_driver_sv : Instantiates
+```
+
 ## 5. Experimental Procedure 
 1) **Constrained Planar Motion:** The target object (orange ball) was translated across a horizontal plane to maintain a constant depth relative to the camera sensor. This isolates $X$ and $Y$ motion by minimizing variations in the radius caused by Z-axis depth changes.
 2) **Occlusion Injection:** Intentional sensor blackouts were introduced at random intervals by physically obstructing the camera lens. This was performed to evaluate the prediction model's Occlusion Recovery capabilities during data loss.
